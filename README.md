@@ -1,10 +1,6 @@
-# hott3_adj_files
-This Repository contains lean3 files formalizing and extending concepts from the Homotopy Type Theory Book,
-created by Daniel Carranza, Jonathan Chang, and Ryan Sandford during their summer 2019 research term.
-These files are intended to be used with the gebner/hott3 repository.
+# Adjoint and 2-Adjoint Equivalences in Homotopy Type Theory
 
-adj.lean contains definitions and theorems regarding half adjoint equivalences which formalize 
-4.2.3, 4.2.7, 4.2.9, 4.2.10, 4.2.12, and 4.2.13 from section 4.2 of the HoTT Book.
-two_adj.lean contains definitions and theorems regarding half 2-adjoint equivalences which formalize analogous 
-theorems to that of 4.2.3, 4.2.12, 4.2.13 from section 4.2 of the HoTT Book.
-Lastly prelim.lean contains Auxiliary lemmas used in both adj.lean and two_adj.lean.
+This repository contains the contributions of Daniel Carranza, Jonathan Chang, and Ryan Sandford 
+to the Lean3 HoTT Library. These files contain formalized proofs of theorems 
+extending chapter 4 of the HoTT book which can be found in the Lean 3 HoTT 
+Library at https://github.com/gebner/hott3/tree/master/src/hott/types/2_adj.
