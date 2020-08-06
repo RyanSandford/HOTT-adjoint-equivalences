@@ -2,14 +2,16 @@
 Authors: Daniel Carranza, Jonathon Chang, Ryan Sandford
 Under the supervision of Chris Kapulkin
 Some auxiliary lemmas used in adj.lean and two_adj.lean
-Last updated: 2020-02-20
+Last updated: 2020-07-31
 -/
 
 import hott.init hott.types.equiv
-open hott
+universes u v
 
 hott_theory
-universes u v
+namespace hott
+open hott
+
 namespace pi
     variable {A : Type u}
     variable {B : Type v} 
@@ -42,24 +44,6 @@ namespace pi
     @[hott] def postcompose_equiv (f : B → C) [H : is_equiv f]
       : (A → B) ≃ (A → C) :=
     equiv.mk (postcompose f) (postcompose_equiv_is_equiv f)
-    
-    @[hott] def eq_equiv_eq_htpy {P : A → Type _} {f g h k : Π(x : A), P x}
-      (H : f ~ h) (H₂ : g ~ k) : f = g ≃ h = k :=
-    eq_equiv_eq_closed (eq_of_homotopy H) (eq_of_homotopy H₂)
-
-    @[hott] def htpy_equiv_htpy_closed {P : A → Type _} {f g h k : Π(x : A), P x}
-      (H : f ~ h) (H₂ : g ~ k) : f ~ g ≃ h ~ k :=
-    (eq_equiv_homotopy f g)⁻¹ᵉ ⬝e eq_equiv_eq_htpy H H₂ ⬝e eq_equiv_homotopy h k
-
-    @[hott] def htpy_of_htpy_to_path_of_path {f g : A → B} (H H₂ : f ~ g)
-      : (H ~ H₂) ≃ (eq_of_homotopy H = eq_of_homotopy H₂) :=
-    (eq_equiv_homotopy H H₂)⁻¹ᵉ ⬝e equiv_ap eq_of_homotopy H H₂
-
-    @[hott] def htpy_square_equiv_path_concat {P : A → Type _} {f₁ g₁ h₁ f₂ g₂ h₂ : Π(x : A), P x} 
-      (F : f₁ = f₂) (G : g₁ = g₂) (H : h₁ = h₂) (α : f₁ = g₁) (β : g₁ = h₁)
-      : (eq_equiv_eq_closed F G) α ⬝ (eq_equiv_eq_closed G H) β
-        = eq_equiv_eq_closed F H (α ⬝ β) :=
-    by hinduction G; hinduction H; hinduction β; reflexivity
 
 end pi
 
@@ -70,3 +54,21 @@ namespace eq
   eq_of_homotopy (λx, inv_inv (H x))
 
 end eq
+
+namespace is_trunc
+
+    variable {A : Type u}
+    variable {B : A → Type _}
+  
+    @[hott, instance] def sigma_hty_is_contr (f : Π(x : A), B x) : is_contr (Σ(g : Π(x : A), B x), f ~ g) :=
+    is_trunc.is_contr.mk ⟨f, λx, rfl⟩ (λu, by induction u; 
+      apply eq.homotopy.rec_idp (λg H, @hott.eq (Σ(g : Π(x : A), B x), f ~ g) ⟨f, λx, rfl⟩ ⟨g, H⟩) rfl u_snd)
+
+    @[hott, instance] def sigma_hty_is_contr_right (f : Π(x : A), B x) : is_contr (Σ(g : Π(x : A), B x), g ~ f) :=
+    @is_trunc.is_trunc_equiv_closed (Σ(g : Π(x : A), B x), f ~ g) (Σ(g : Π(x : A), B x), g ~ f) -2 
+      (sigma.sigma_equiv_sigma_right (λg, pi.pi_equiv_pi_right (λx, eq_equiv_eq_symm (f x) (g x)))) 
+      (sigma_hty_is_contr f)
+      
+end is_trunc
+
+end hott
