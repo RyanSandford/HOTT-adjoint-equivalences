@@ -1,7 +1,7 @@
 # Adjoint and 2-Adjoint Equivalences in Homotopy Type Theory
 
 This repository contains the contributions of Daniel Carranza, Jonathan Chang, and Ryan Sandford 
-to the Lean3 HoTT Library. These files contain formalized proofs of theorems 
+to the Lean3 HoTT Library, under the supervision of Chris Kapulkin. These files contain formalized proofs of theorems 
 extending chapter 4 of the HoTT book which can be found in the Lean 3 HoTT 
 Library at https://github.com/gebner/hott3/tree/master/src/hott/types/2_adj.
 
